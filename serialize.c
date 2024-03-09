@@ -22,6 +22,14 @@ struct Info* ArgSerialize(int argc, char** argv) {
     return info;
 }
 
+void printInfo(struct Info* info) {
+    printf("\targc:%d len:%d argv=(", info->argc, info->size);
+    for (int i = 0; i < info->argc; i++) {
+        printf("%s ", info->argv[i].arg);
+    }
+    printf(")\n");
+}
+
 // 用来将参数序列化传递给服务器端
 // 第一个参数是程序名，所以这里argc是减一的状态，同理，反序列化时加一
 char* Serialize1(int argc, char** argv, int* size_r) {

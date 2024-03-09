@@ -3,9 +3,13 @@
 
 #include <sys/epoll.h>
 
-#define UNIX_IPC_ADDRESS "/root/gcx/cx/cx.ipc"
+#ifdef __UNIX_IPC__
+#define UNIX_IPC_ADDRESS "/root/code/cx/cx.ipc"
+#else
+#define SOCKET_ADDRESS 8080
+#endif
 #define CLI_IPC_PATH "/var/tmp/"
-#define STACK_SIZE (8 * 1024)
+#define STACK_SIZE (1024 * 1024)
 #define BUFF_SIZE 100
 #define MAX_EVENTS 10
 

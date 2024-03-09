@@ -23,4 +23,6 @@ struct Info {
 
 struct Info* ArgSerialize(int argc, char** argv);
 
+void printInfo(struct Info*);
+
 #endif

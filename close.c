@@ -19,10 +19,12 @@ int closeFd(void* arg) {
 
 int unlinkFd(void* arg) {
     printf("%d unlink address\n", getpid());
+#ifdef __UNIX_IPC__
     if (unlink(UNIX_IPC_ADDRESS) == -1) {
         perror("unlink error");
         return 1;
     };
+#endif
     return 0;
 }
 

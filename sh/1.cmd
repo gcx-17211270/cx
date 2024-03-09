@@ -15,7 +15,7 @@ ssh %USER%@%TARGET_MACHINE% 'rm -rf %DIRECTORY%'
 @REM     @echo "rm file failure"
 @REM     exit 1
 @REM )
-@scp -r %cd%/../../cx %USER%@%TARGET_MACHINE%:%PARENT%
+scp -r %cd%/../../cx %USER%@%TARGET_MACHINE%:%PARENT%
 @if %errorlevel% neq 0 (
     @echo "scp file failure"
     exit 1
