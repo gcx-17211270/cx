@@ -6,20 +6,19 @@
 // 用来将参数序列化传递给服务器端
 struct Info* ArgSerialize(int argc, char** argv) {
     struct Info *info = (struct Info*)malloc(sizeof(struct Info));
-    info->argc = argc - 1;
-    struct Pack* pack = (struct Pack*)malloc(sizeof(struct Pack) * (argc - 1));
+    info->argc = argc;
+    struct Pack* pack = (struct Pack*)malloc(sizeof(struct Pack) * argc);
     info->argv = pack;
-    int size = sizeof(struct Info) + (argc - 1) *sizeof(struct Pack);
-    for (int i = 0; i < argc - 1; i++) {
-        int len = strlen(argv[i + 1]);
+    int size = sizeof(struct Info) + argc * sizeof(struct Pack);
+    for (int i = 0; i < argc; i++) {
+        int len = strlen(argv[i]);
         size += len;
         char *s = (char*)malloc(sizeof(char) * len);
-        memcpy(s, argv[i + 1], len);
+        memcpy(s, argv[i], len);
         pack[i].len = len;
         pack[i].arg = s;
     }
     info->size = size;
-    printf("size = %d", size);
     return info;
 }
 

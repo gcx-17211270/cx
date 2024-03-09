@@ -1,6 +1,8 @@
 #ifndef __MAIN_H__
 #define __MAIN_H__
 
+#include <sys/epoll.h>
+
 #define UNIX_IPC_ADDRESS "/root/gcx/cx/cx.ipc"
 #define CLI_IPC_PATH "/var/tmp/"
 #define STACK_SIZE (8 * 1024)
@@ -12,5 +14,8 @@ int addNewConn(int listen_sock, struct epoll_event* ev, int epollfd);
 
 // 建立新的线程处理连接上的请求，这个函数是新线程里的执行逻辑
 void* start_routing (void* arg);
+
+// 用来解析请求、创建子进程的进程
+#define RUNCX_EXE "./runcx.exe"
 
 #endif
