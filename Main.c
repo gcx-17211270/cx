@@ -120,7 +120,10 @@ void* start_routing (void* arg) {
     };
     printf("read %d\n", len);
     int *argc = (int*)malloc(sizeof(int));
-    char** argv = Deserialize1(argc, content);
+    char** argv = Deserialize2(content, len, argc);
+    if (argv == NULL) {
+        goto free;
+    }
     printf("有新创建进程请求\n");
     for (int i = 0; i < *argc; i++) {
         printf("%d.%s\n", i+1, argv[i]);
@@ -128,12 +131,14 @@ void* start_routing (void* arg) {
     printf("\n");
     cloneSubProcess(*argc, argv);
     
-    free(arg);
+free:    free(arg);
     free(content);
-    for (int i = 0; i < *argc; i++) {
-        free(argv[i]);
+    if (argv != NULL) {
+        for (int i = 0; i < *argc; i++) {
+            free(argv[i]);
+        }
+        free(argv);
     }
-    free(argv);
     free(argc);
 }
 

@@ -7,6 +7,9 @@ char* Serialize1(int argc, char** argv, int* size_r);
 // 服务器端用来反序列化数据，argc用来接受参数个数
 char** Deserialize1(int* argc, char* s);
 
+// 服务器端用来反序列化数据，argc用来接受参数个数
+char** Deserialize2(char* s, int len, int* argc);
+
 struct Pack {
     int len;
     char* arg;

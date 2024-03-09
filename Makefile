@@ -11,3 +11,9 @@ clean:
 
 all: cxctl cxd runcx
 
+test:
+	gcc -o ser_test serialize_test.c serialize.c serialize.h -std=c99
+	./ser_test
+    ifeq (0, $(shell echo $?) )
+    	$(shell echo "test serialize false")
+    endif

@@ -50,6 +50,7 @@ char* Serialize1(int argc, char** argv, int* size_r) {
     return s;
 };
 
+// 这个的序列化是按 四字节长度 然后一个字符串 这样的方式组织的
 char** Deserialize1(int* argc, char* s) {
     *argc = *(int*)s;
     char** res = (char**)malloc(sizeof(char*) * (*argc));
@@ -61,6 +62,39 @@ char** Deserialize1(int* argc, char* s) {
         memcpy(str, tmp, *len);
         tmp += *len;
         res[i] = str;
+    }
+    return res;
+}
+
+// 这个的序列化是按 \n分割，然后len是返回的行数
+char** Deserialize2(char* s, int len, int* argc) {
+    char** res = NULL;
+    *argc = 0;
+    int start = 0;
+    for (int i = 1; i < len; i++) {
+        if (s[i] == '\n') {
+            res = (char**)realloc(res, ((*argc) + 1) * sizeof(char*));
+            if (res == NULL) {
+                perror("realloc error occur");
+                return NULL;
+            }
+            if ((i - start) > 0) {
+                res[*argc] = (char*)malloc(sizeof(char) * (i - start));
+                memcpy(res[*argc], s+start, (i - start));
+                (*argc)++;
+                start = i + 1;
+            }
+        }
+    }
+    if (s[len - 1] != '\n') {
+        res = (char**)realloc(res, ((*argc) + 1) * sizeof(char*));
+        if (res == NULL) {
+            perror("realloc error occur");
+            return NULL;
+        }
+        res[*argc] = (char*)malloc(sizeof(char) * (len - start));
+        memcpy(res[*argc], s+start, (len - start));
+        (*argc)++;
     }
     return res;
 }
