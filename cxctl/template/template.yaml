@@ -1,0 +1,30 @@
+kind: MyResource
+metadata:
+  name: myresource
+  namespace: gcx    # namespace的作用是用来区分全局资源和个人资源，比如某个人的配额，它的限制就是局限于这个人的ns里；但是它的权限，就要分为本ns和全局的
+spec:               # 规格说明
+  replicas: 2
+  template:         # 镜像及运行相关的
+    spec:
+      containers:       # 镜像
+        - name:         # 后续的容器名称
+          image:        # 镜像来源
+          volumeMounts:
+            # 允许挂载外部的文件
+            path:
+            type: # 读/写
+          resource:     # 资源限制
+            request:    # 最低需求-依据此来调度
+              cpu:
+              memory:
+            limit:      # 最高使用-依据此来设置cgroup
+              cpu:
+              memory:
+#            livenessProbe:
+#              httpGet:  # 存活探针
+#                path:
+#                port:
+#                scheme:
+      affinity:         # 亲和
+#      tolerations:      # 污点容忍
+# 还要做的事情包括，对pod进行ip\iptables\dns设置

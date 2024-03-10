@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+option go_package = "github.com/gcx-17211270/cx/cxctl/create";
+option java_multiple_files = true;
+option java_package = "pers.gcx-17211270.cx.cxctl";
+option java_outer_classname = "CreateProto";
+
+package pkg;
+
+service Create {
+  rpc Create(CreateRequest) returns (CreateReply) {}
+}
+
+message CreateRequest {
+  int32 requestId = 1;
+  Metadata mdata = 2;
+}
+
+message CreateReply {
+  bool ok = 1;
+}
+
+message Metadata {
+  string name = 1;
+  string namespace = 2;
+}
+
+message Spec {
+  int32 replicas = 1;
+  Template template = 2;
+}
+
+message Template {
+  TemplateSpec spec = 1;
+  string affinity = 2; // 先只实现根据hostname亲和
+}
+
+message TemplateSpec {
+  Containers containers = 1;
+}
+
+message Containers {
+  repeated Container c = 1;
+}
+
+message Container {
+  string name = 1;
+  string image = 2;
+  VolumeMounts volumeMounts = 3;
+  Resource resource = 4;
+}
+
+message VolumeMounts {
+  repeated VolumeMount volumeMount = 1;
+}
+
+message VolumeMount {
+  string pathOutSide = 1;
+  string pathIn = 2;
+  int32 type = 3; // 1只读 2读写
+}
+
+message Resource {
+  Request request = 1;
+  Limit limit = 2;
+}
+
+message Request {
+  CpuAndMem cm = 1;
+}
+
+message Limit {
+  CpuAndMem cm = 1;
+}
+
+message CpuAndMem {
+  uint32 cpu = 1;
+  uint32 memory = 2;
+}
